@@ -1,0 +1,80 @@
+# Dataset Date Setting
+
+YYYYMM        : '202305' #기준년월
+strt_YYYYMM   : '202302'
+end_YYYYMM    : '202304'
+
+strt_YYYYMMDD : '2023-02-01'
+end_YYYYMMDD  : '2023-05-01' # EX) 6월까지 원하는 경우 그 다음달 1일, 20230-07-01 입력
+
+# 500 X 500 선택 및 50 X 50 지역 선정
+region        : '수원시' #False 입력, 500 X 500 자동 생성, 도시명 입력 50 X 50 생성 도시명 ctycd_ctynm.csv 참고, 선정 안 할 시 
+
+# Directory
+
+result_folder : '/data/env1' # 쿼리 결과 마트, 중간 마트, 인풋마트, 모델 결과 마트 저장 폴더 
+
+#### Phase Implementation
+## ETL_1
+etl_1           : True
+
+db_data_imprt   : True # ETL_1 weekdays, timezn 쿼리 여부
+inptmrt_db_upld : False # mrt_inlay_flt_pop_input_500, mrt_inlay_flt_pop_input_50 DB 적재 여부 
+## ETL_2
+etl_2           : True
+## Modeling
+modeling        : True
+## Prediction
+prediction      : False
+prrslt_db_upld  : False # mrt_dynmc_popltn_cell500_anls DB 적재 여부 
+
+
+# etl_2 setting
+thrshld             : 140/2500
+## model setting
+time_split_dt       : '202303623'
+num_of_output       : 168 #depth of predicted output map
+model_type_ver      : 'v0.1'
+time_interval       : '1hour'
+period_num          : 60
+post_plot_process   : 0
+seed                : 529
+bool_external       : False
+
+## prediction setting 
+pstrt_YYYYMMDDHH : '2023060104'
+pend_YYYYMMDDHH  : '2023081401'
+ptime_split_dt   : '2023070100'
+
+## DB
+postgresql_DB   : 'ggits'
+Hive_DB         : 'spark_catalog'
+
+#### 테이블
+# Hive DB
+tbl_dly         : 'bigdata.ext_kt_weekdays' 
+tbl_hrly        : 'bigdata.ext_kt_timezn'
+# PostgreSQL DB
+tbl_cll_mppng   : 'ggits.kt_cell_mapn_info'
+flt_pop_        : 'mrt_inlay_flt_pop_input_'
+bus_db_input    : 'mrt_dynmc_popltn_cell500_anls'
+
+# Pickle
+bus_out_      : 'kt_bs_stn_flt_pop_hrly_out_'
+
+## PostgreSQL DB 접속 정보
+host               : "192.168.13.110"
+port               : "5432"
+database           : "ggits"
+username           : "ggits"
+password           : "ggits1231!"
+driver_psgrsql     : "psycopg2"
+dialect            : "postgresql"
+
+## Hive DB 접속 정보
+driver_hv    : "org.apache.kyuubi.jdbc.KyuubiHiveDriver"
+url          : "jdbc:hive2://192.168.10.23:20009"
+hivejar      : "/home/ggits/mls/kyuubi-hive-jdbc-shaded-1.6.1-incubating.jar"
+
+
+
